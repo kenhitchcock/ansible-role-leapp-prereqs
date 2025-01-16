@@ -1,0 +1,17 @@
+---
+# tasks file for leapp-prereqs
+
+- name: "RHEL 7 prereqs"
+  block:
+    - name: "Enable all extras rpms"
+      community.general.rhsm_repository:
+        name: rhel-7-server-extras-rpms
+        state: enabled
+
+    - name: "Install the latest version of the LEAPP package"
+      ansible.builtin.yum:
+        name: leapp
+        state: latest
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution_major_version'] == 7
